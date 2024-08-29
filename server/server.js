@@ -7,13 +7,13 @@ import riderRoutes from './routes/RiderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
 const app = express();
-const PORT = 5010;
+const PORT = process.env.PORT || 5010;
 
 // Create an HTTP server and setup socket.io
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // Allow all origins for simplicity, configure as needed
+        origin: "*", // Allow all origins for simplicity; adjust as needed
         methods: ["GET", "POST"]
     }
 });
@@ -36,13 +36,13 @@ app.use('/api/auth', userRoutes);
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
 
-    // When a user sends a request
+    // Handle ride request
     socket.on('rideRequest', (userData) => {
-        // Emit the ride request to all connected riders
+        // Broadcast the ride request to all riders
         io.emit('newRideRequest', { ...userData, socketId: socket.id });
     });
 
-    // When a rider accepts the request
+    // Handle accepting a ride
     socket.on('acceptRide', (rideDetails) => {
         if (rideDetails.userDetails) { // Check if userDetails exist
             // Notify the specific user about the accepted ride
@@ -51,13 +51,8 @@ io.on('connection', (socket) => {
             // Notify all riders to remove the accepted request
             io.emit('removeRideRequest', rideDetails.userSocketId);
 
-            // Send the accepted user's details only to the accepting rider
-            const acceptedUserDetails = {
-                name: rideDetails.userDetails.name,
-                email: rideDetails.userDetails.email,
-                phone: rideDetails.userDetails.phone,
-            };
-            io.to(socket.id).emit('acceptedUserDetails', acceptedUserDetails);
+            // Send the accepted ride details to the accepting rider
+            io.to(socket.id).emit('acceptedRideDetails', rideDetails);
         } else {
             console.error('userDetails is undefined in rideDetails:', rideDetails);
         }
@@ -69,7 +64,14 @@ io.on('connection', (socket) => {
     });
 });
 
-// Start the server with the HTTP server
+// Generate OTP (if needed for your application)
+function generateOTP() {
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    console.log(`Generated OTP: ${otp}`);
+}
+generateOTP();
+
+// Start the server
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

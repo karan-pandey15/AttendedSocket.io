@@ -20,39 +20,9 @@ const TopNavbar = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
- 
- 
+  
 
-  axios.defaults.withCredentials = true;
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.marasimpex.com/api/user-data"
-        );
-        setUser(response.data.Data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const handleLogout = () => {
-    axios
-      .post("https://api.marasimpex.com/api/logout-user")
-      .then((response) => {
-        if (response.data.Status === "Success") {
-          localStorage.clear();
-          router.push("/pages/signin");
-        }
-      })
-      .catch((error) =>
-        console.error("Error occurred while logging out user: " + error)
-      );
-  };
+  
 
   const navItems = [
  
@@ -134,12 +104,11 @@ const TopNavbar = () => {
             <div className="px-3">
               {user ? (
                 <div className="flex items-center text-white text-sm">
-                  Hello, <span>{user.username}</span>
+                  Hello,  
                   <button
                     type="button"
                     className="text-white text-2xl font-bold px-1"
-                    title="Logout"
-                    onClick={handleLogout}
+                    title="Logout" 
                   >
                     <IoIosLogOut />
                   </button>

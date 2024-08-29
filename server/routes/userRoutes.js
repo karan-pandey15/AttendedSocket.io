@@ -9,4 +9,5 @@ router.post('/registeruser', registerUser);
 router.post('/loginuser', loginUser);
 router.get('/userdata', authTwoMiddleware, getUser);
 
+
 export default router;

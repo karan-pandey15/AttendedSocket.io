@@ -19,7 +19,7 @@ const LoginPage = () => {
             
             const { token } = response.data;
             localStorage.setItem('token', token);
-            router.push('/pages/dashboard');
+            router.push('/pages/RiderDashboard');
         } catch (err) {
             console.error('Login error:', err); // Log error details
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
@@ -48,7 +48,7 @@ const LoginPage = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
-                <h1 className="text-2xl font-semibold text-gray-800 text-center">Login</h1>
+                <h1 className="text-2xl font-semibold text-gray-800 text-center">Rider Login</h1>
                 {error && <p className="text-red-500 text-center">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>

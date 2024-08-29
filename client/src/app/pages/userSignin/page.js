@@ -26,7 +26,7 @@ const LoginTwoPage = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-gray-900 text-center">Login</h1>
+                <h1 className="text-3xl font-bold text-gray-900 text-center">User Login</h1>
                 {error && <p className="text-red-500 text-center">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
